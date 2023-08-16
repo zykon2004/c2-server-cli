@@ -13,10 +13,10 @@
             "justMyCode": true
         },
         {
-            "name": "Python: Server",
+            "name": "Python: CLI",
             "type": "python",
             "request": "launch",
-            "program": "server/server.py",
+            "program": "cli/cli.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "cwd": "${workspaceFolder}"
