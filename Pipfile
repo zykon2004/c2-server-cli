@@ -7,6 +7,9 @@ name = "pypi"
 requests = "*"
 typer = {extras = ["all"], version = "*"}
 typer-cli = "*"
+pydantic = "*"
+sqlalchemy = "*"
+sqlalchemy-stubs = "*"
 
 [dev-packages]
 
