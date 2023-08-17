@@ -16,6 +16,25 @@ class Client(Base):
     port = Column(Integer)
     external_ip = Column(String)
 
+    def values(self, stringify: bool = False):
+        if stringify:
+            return (
+                self.id,
+                self.hostname,
+                self.os,
+                str(self.last_seen),
+                str(self.port),
+                self.external_ip,
+            )
+        return (
+            self.id,
+            self.hostname,
+            self.os,
+            self.last_seen,
+            self.port,
+            self.external_ip,
+        )
+
 
 class Payload(Base):
     __tablename__ = "payloads"

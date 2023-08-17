@@ -4,7 +4,7 @@ from typing import Any, List, Optional
 import requests
 from db_helper import add_command, get_command_arguments
 from schema import Command, CommandType
-from settings import PROTOCOL, REQUEST_TIMEOUT
+from settings import PROTOCOL, REMOTE_SERVER_BASE_URL, REQUEST_TIMEOUT
 
 
 def send_command(
@@ -57,4 +57,19 @@ def generate_client_url(host: str, port: int, protocol: str = PROTOCOL) -> str:
     return f"{protocol}://{host}:{port}"
 
 
-send_command(target="all", type=CommandType.KILL)
+def check_server_status(server_url: str = REMOTE_SERVER_BASE_URL) -> bool:
+    headers = {"Content-type": "application/json"}
+    try:
+        requests.post(
+            url=server_url,
+            data={"message": "Are you up?"},
+            headers=headers,
+            timeout=1,
+        )
+        return True
+    except requests.exceptions.ConnectionError:
+        return False
+
+
+# send_command(target="all", type=CommandType.KILL)
+# check_server_status()
