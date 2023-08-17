@@ -20,12 +20,10 @@
 # # run_command(f'{gum} spin --spinner dot --title "Buying Bubble Gum..." -- sleep 5'.split())
 # print("What's your favorite language?")
 
-import sys
-from typing import Dict
-
-from rich import print as rich_print
-from rich.prompt import Prompt
 from server_status import server_status
+from clients_menu import kill_menu, client_status
+from printer import goodbye, offer_choice, rich_print
+from logger import setup_logger
 
 
 def main_menu():
@@ -49,15 +47,15 @@ def main_menu():
 
 
 def client_menu():
-    menu_items = {"1": "Status", "2": "Kill", "9": "Main Menu", "0": "Exit"}
+    menu_items = {"1": "Status", "2": "Kill", "9": "Go Back", "0": "Exit"}
     while True:
         rich_print("[yellow bold]Clients")
         choice = offer_choice(menu_items)
         match choice:
             case "1":
-                ...
+                client_status()
             case "2":
-                ...
+                kill_menu()
             case "9":
                 break
                 # Go back to main menu's loop
@@ -69,20 +67,9 @@ def command_menu():
     rich_print("[yellow bold]Commands")
 
 
-def goodbye():
-    rich_print("[bold green]Goodbye :slightly_frowning_face:")
-    sys.exit(0)
-
-
-def offer_choice(menu_items: Dict[str, str]) -> str:
-    for key, value in menu_items.items():
-        rich_print(f"({key}) {value}")
-
-    return Prompt.ask("Enter Your Choice", choices=list(menu_items.keys()))
-
-
 if __name__ == "__main__":
-    rich_print(":fire: Welcome to c2-server-cli :fire:")
+    rich_print("Welcome! :mage: ")
+    setup_logger("c2-server-cli")
     main_menu()
 """
 Main Menu:

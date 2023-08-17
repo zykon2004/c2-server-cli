@@ -50,7 +50,7 @@ def update_command_status(message: Message):
         session.commit()
 
 
-def get_active_clients(
+def get_clients(
     with_column_names: bool = False,
     client_liveliness_threshold: int = CLIENT_LIVELINESS_THRESHOLD_MINUTES,
 ) -> List[Any]:
@@ -61,6 +61,7 @@ def get_active_clients(
         active_clients_query = session.query(Client).filter(
             Client.last_seen >= liveliness_threshold_delta
         )
+        active_clients_query = active_clients_query.order_by(Client.last_seen)
 
         if with_column_names:
             return [Client.__table__.columns.keys(), *active_clients_query.all()]

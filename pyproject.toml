@@ -13,7 +13,7 @@ ignore_missing_imports = true
 line-length = 120
 select = ["E", "F", "I", "C90", "N", "S", "PIE", "PL", "RUF"]
 ignore = ["E501"]
-per-file-ignores = {"tests/test*.py"= ["S101"], "cli/cli.py"=["E999"]}
+per-file-ignores = {"tests/test*.py"= ["S101"], "cli/cli.py"=["E999"], "cli/clients_menu.py"=["E999"]}
 fix = true
 
 [tool.ruff.pep8-naming]

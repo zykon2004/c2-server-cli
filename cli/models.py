@@ -44,6 +44,21 @@ class Payload(Base):
     payload = Column(Text)
     default_arguments = Column(Text)
 
+    def values(self, stringify: bool = False):
+        if stringify:
+            return (
+                str(self.id),
+                self.name,
+                self.payload,
+                self.default_arguments,
+            )
+        return (
+            self.id,
+            self.name,
+            self.payload,
+            self.default_arguments,
+        )
+
 
 class Command(Base):
     __tablename__ = "commands"
@@ -57,3 +72,28 @@ class Command(Base):
     response = Column(Text)
     type = Column(Integer)
     last_update = Column(DateTime)
+
+    def values(self, stringify: bool = False):
+        if stringify:
+            return (
+                self.id,
+                str(self.payload_id),
+                self.arguments,
+                self.client_id,
+                str(self.time_sent),
+                str(self.status),
+                self.response,
+                str(self.type),
+                str(self.last_update),
+            )
+        return (
+            self.id,
+            self.payload_id,
+            self.arguments,
+            self.client_id,
+            self.time_sent,
+            self.status,
+            self.response,
+            self.type,
+            self.last_update,
+        )

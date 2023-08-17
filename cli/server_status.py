@@ -1,6 +1,7 @@
 from time import sleep
 
-from db_helper import get_active_clients
+from db_helper import get_clients
+from printer import generate_table
 from rich.layout import Layout
 from rich.live import Live
 from rich.panel import Panel
@@ -8,6 +9,11 @@ from rich.table import Table
 from rich.text import Text
 from settings import STATUS_REFRESH_INTERVAL
 from tasks import check_server_status
+
+
+def generate_table_of_living_clients() -> Table:
+    client_list_with_header = get_clients(with_column_names=True)
+    return generate_table(client_list_with_header)
 
 
 def server_status() -> None:
@@ -40,24 +46,14 @@ def server_status() -> None:
             )
             return Panel(grid, style="italic magenta")
 
-    def generate_table() -> Table:
-        """Make a new table."""
-        table = Table(expand=True)
-        client_list_with_header = get_active_clients(with_column_names=True)
-        for column in client_list_with_header[0]:
-            table.add_column(column)
-        for row in client_list_with_header[1:]:
-            table.add_row(*row.values(stringify=True))
-        return table
-
     layout = make_layout()
     layout["header"].update(Header())
-    layout["main"].update(generate_table())
+    layout["main"].update(generate_table_of_living_clients())
 
     with Live(layout, auto_refresh=False, screen=True) as live:
         try:
             while True:
-                layout["main"].update(generate_table())
+                layout["main"].update(generate_table_of_living_clients())
                 sleep(STATUS_REFRESH_INTERVAL)
                 live.refresh()
         except KeyboardInterrupt:
