@@ -70,6 +70,7 @@ def check_server_status(server_url: str = SERVER_BASE_URL) -> bool:
             data={"message": "Are you up?"},
             headers=headers,
             timeout=1,
+            verify=False,  # noqa: S501
         )
         return True
     except requests.exceptions.ConnectionError:
