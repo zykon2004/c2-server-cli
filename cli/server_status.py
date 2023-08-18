@@ -7,7 +7,7 @@ from rich.live import Live
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
-from settings import STATUS_REFRESH_INTERVAL
+from settings import STATUS_REFRESH_INTERVAL_SECONDS
 from tasks import check_server_status
 
 
@@ -42,7 +42,10 @@ def server_status() -> None:
             grid.add_row(
                 Text("""<--- Main Menu (Ctrl+C)""", style="bold yellow"),
                 Text.assemble(("Server status: ", "bold"), status_text),
-                Text(f"Refresh interval: {STATUS_REFRESH_INTERVAL}sec", style="yellow"),
+                Text(
+                    f"Refresh interval: {STATUS_REFRESH_INTERVAL_SECONDS}sec",
+                    style="yellow",
+                ),
             )
             return Panel(grid, style="italic magenta")
 
@@ -54,7 +57,7 @@ def server_status() -> None:
         try:
             while True:
                 layout["main"].update(generate_table_of_living_clients())
-                sleep(STATUS_REFRESH_INTERVAL)
+                sleep(STATUS_REFRESH_INTERVAL_SECONDS)
                 live.refresh()
         except KeyboardInterrupt:
             live.stop()
