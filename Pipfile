@@ -5,13 +5,14 @@ name = "pypi"
 
 [packages]
 requests = "*"
-typer = {extras = ["all"], version = "*"}
-typer-cli = "*"
 pydantic = "*"
 sqlalchemy = "*"
 sqlalchemy-stubs = "*"
 
 [dev-packages]
+pre-commit = "*"
+ruff = "*"
+black = "*"
 
 [requires]
 python_version = "3.11"

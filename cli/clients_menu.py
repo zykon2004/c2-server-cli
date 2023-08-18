@@ -37,7 +37,7 @@ def kill_menu():
                     match choice:
                         case "b":
                             break
-                            # Go back to previous loop
+
                         case "q":
                             goodbye()
 
@@ -51,7 +51,7 @@ def kill_menu():
 
             case "b":
                 break
-                # Go back to previous loop
+
             case "q":
                 goodbye()
 
@@ -72,6 +72,6 @@ def client_status():
         match choice:
             case "b":
                 break
-                # Go back to previous loop
+
             case "q":
                 goodbye()

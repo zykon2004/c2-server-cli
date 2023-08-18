@@ -26,7 +26,7 @@ def command_status():
         match choice:
             case "b":
                 break
-                # Go back to previous loop
+
             case "q":
                 goodbye()
 
@@ -48,7 +48,7 @@ def send_command_menu():
                     target = "all"
                 case "b":
                     break
-                    # Go back to previous loop
+
                 case "q":
                     goodbye()
                 case _:
@@ -68,7 +68,7 @@ def send_command_menu():
             match choice:
                 case "b":
                     break
-                    # Go back to previous loop
+
                 case "q":
                     goodbye()
                 case _:
@@ -95,6 +95,6 @@ def send_command_menu():
         match choice:
             case "b":
                 break
-                # Go back to previous loop
+
             case "q":
                 goodbye()
