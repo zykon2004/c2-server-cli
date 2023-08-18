@@ -1,21 +1,20 @@
 from db_helper import get_clients
-from tasks import send_command
-from schema import Command, CommandType
 from printer import (
     generate_choice_table,
+    generate_table,
     goodbye,
     offer_choice,
     rich_print,
-    generate_table,
 )
 from rich.console import Console
 from rich.prompt import Prompt
-from rich.table import Table
+from schema import CommandType
+from tasks import send_command
 
 
 def kill_menu():
     rich_print(":skull: [yellow bold]Kill :skull:")
-    menu_items = {"1": "All", "2": "Select Client", "9": "Go Back", "0": "Exit"}
+    menu_items = {"1": "All", "2": "Select Client", "b": "Go Back", "q": "Quit"}
     console = Console()
 
     while True:
@@ -30,28 +29,36 @@ def kill_menu():
                 clients_with_header = get_clients(with_column_names=True)
 
                 if clients := clients_with_header[1:]:
-                    choices = [str(i + 1) for i in range(0, len(clients))]
                     table = generate_choice_table(clients_with_header)
                     console.print(table)
+                    choices = [str(i + 1) for i in range(0, len(clients))]
+                    choices.extend(["b", "q"])
                     choice = Prompt.ask("Enter Your Choice", choices=choices)
-                    target = clients_with_header[int(choice)][1]
+                    match choice:
+                        case "b":
+                            break
+                            # Go back to previous loop
+                        case "q":
+                            goodbye()
+
+                    target = clients[int(choice) - 1].id
                     send_command(target=target, type=CommandType.KILL)
                     rich_print(f"KILLED {target}")
 
                 else:
-                    rich_print(":warning: [red] No living clients found.")
+                    rich_print(":warning: [red] NO LIVING CLIENTS FOUND.")
                     break
 
-            case "9":
+            case "b":
                 break
                 # Go back to previous loop
-            case "0":
+            case "q":
                 goodbye()
 
 
 def client_status():
-    rich_print("[yellow bold]Status")
-    menu_items = {"9": "Go Back", "0": "Exit"}
+    rich_print("[yellow bold]Client Status")
+    menu_items = {"b": "Go Back", "q": "Quit"}
     console = Console()
 
     while True:
@@ -63,8 +70,8 @@ def client_status():
         choice = offer_choice(menu_items)
 
         match choice:
-            case "9":
+            case "b":
                 break
                 # Go back to previous loop
-            case "0":
+            case "q":
                 goodbye()

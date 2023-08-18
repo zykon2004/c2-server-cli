@@ -5,7 +5,11 @@ from typing import Any, List, Optional
 from models import Client, Payload
 from models import Command as CommandTableEntry
 from schema import Command, Message
-from settings import CLIENT_LIVELINESS_THRESHOLD_MINUTES, DB_ENGINE
+from settings import (
+    CLIENT_LIVELINESS_THRESHOLD_MINUTES,
+    COMMAND_AGE_THRESHOLD_MINUTES,
+    DB_ENGINE,
+)
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
@@ -40,7 +44,7 @@ def update_or_insert_client(message: Message, request):
 def update_command_status(message: Message):
     with Session(ENGINE) as session:  # type: ignore
         command_id = str(message.identifier)
-        command = session.query(Command).filter_by(id=command_id).first()
+        command = session.query(CommandTableEntry).filter_by(id=command_id).first()
 
         if command:
             command.status = message.status.value
@@ -116,3 +120,27 @@ def add_command(
         )
         session.add(new_command)
         session.commit()
+
+
+def get_all_payload(
+    with_column_names: bool = False,
+) -> List[Any]:
+    with Session(ENGINE) as session:  # type: ignore
+        if with_column_names:
+            return [Payload.__table__.columns.keys(), *session.query(Payload).all()]
+        return session.query(Payload).all()
+
+
+def get_commands(
+    with_column_names: bool = False,
+    age_threshold_minutes: int = COMMAND_AGE_THRESHOLD_MINUTES,
+) -> List[Any]:
+    age_threshold_delta = datetime.now() - timedelta(minutes=age_threshold_minutes)
+    with Session(ENGINE) as session:  # type: ignore
+        query = session.query(CommandTableEntry).filter(
+            CommandTableEntry.time_sent >= age_threshold_delta
+        )
+        query = query.order_by(CommandTableEntry.time_sent)
+        if with_column_names:
+            return [CommandTableEntry.__table__.columns.keys(), *query.all()]
+        return query.all()

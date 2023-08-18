@@ -20,17 +20,18 @@
 # # run_command(f'{gum} spin --spinner dot --title "Buying Bubble Gum..." -- sleep 5'.split())
 # print("What's your favorite language?")
 
-from server_status import server_status
-from clients_menu import kill_menu, client_status
-from printer import goodbye, offer_choice, rich_print
+from clients_menu import client_status, kill_menu
+from command_menu import command_status, send_command_menu
 from logger import setup_logger
+from printer import goodbye, offer_choice, rich_print
+from server_status import server_status
 
 
 def main_menu():
-    menu_items = {"1": "Server Status", "2": "Clients", "3": "Commands", "0": "Exit"}
+    menu_items = {"1": "Server Status", "2": "Clients", "3": "Commands", "q": "Quit"}
     try:
         while True:
-            rich_print("[bold yellow]Main Menu")
+            rich_print(":deciduous_tree: [bold yellow]Main Menu :deciduous_tree:")
             choice = offer_choice(menu_items)
             match choice:
                 case "1":
@@ -39,7 +40,7 @@ def main_menu():
                     client_menu()
                 case "3":
                     command_menu()
-                case "0":
+                case "q":
                     goodbye()
 
     except KeyboardInterrupt:
@@ -47,24 +48,37 @@ def main_menu():
 
 
 def client_menu():
-    menu_items = {"1": "Status", "2": "Kill", "9": "Go Back", "0": "Exit"}
+    menu_items = {"1": "Status", "2": "Kill", "b": "Go Back", "q": "Quit"}
     while True:
-        rich_print("[yellow bold]Clients")
+        rich_print("[yellow bold]Clients Menu")
         choice = offer_choice(menu_items)
         match choice:
             case "1":
                 client_status()
             case "2":
                 kill_menu()
-            case "9":
+            case "b":
                 break
-                # Go back to main menu's loop
-            case "0":
+                # Go back to previous loop
+            case "q":
                 goodbye()
 
 
 def command_menu():
-    rich_print("[yellow bold]Commands")
+    menu_items = {"1": "Status", "2": "Send Command", "b": "Go Back", "q": "Quit"}
+    while True:
+        rich_print("[yellow bold]Commands Menu")
+        choice = offer_choice(menu_items)
+        match choice:
+            case "1":
+                command_status()
+            case "2":
+                send_command_menu()
+            case "b":
+                break
+                # Go back to previous loop
+            case "q":
+                goodbye()
 
 
 if __name__ == "__main__":

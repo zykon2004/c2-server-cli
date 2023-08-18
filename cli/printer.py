@@ -7,7 +7,7 @@ from rich.table import Table
 
 
 def goodbye():
-    rich_print("[bold green]Goodbye")
+    rich_print("[bold green]Goodbye :palm_tree:")
     sys.exit(0)
 
 

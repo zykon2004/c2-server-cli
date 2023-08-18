@@ -13,14 +13,12 @@ def send_command(
     payload_id: Optional[int] = None,
     payload_args: Optional[List[Any]] = None,
 ) -> None:
-
     headers = {"Content-type": "application/json"}
     clients, payload_info = get_command_arguments(target, payload_id)
     if not clients:
         logging.info("No living clients! That's just sad...")
         return
     for identifier, external_ip, port in clients:
-
         if type == CommandType.KILL:
             command = Command(type=type)
 
