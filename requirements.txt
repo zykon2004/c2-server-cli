@@ -4,10 +4,14 @@ certifi==2023.7.22 ; python_version >= '3.6'
 charset-normalizer==3.2.0 ; python_full_version >= '3.7.0'
 greenlet==2.0.2 ; platform_machine == 'aarch64' or (platform_machine == 'ppc64le' or (platform_machine == 'x86_64' or (platform_machine == 'amd64' or (platform_machine == 'AMD64' or (platform_machine == 'win32' or platform_machine == 'WIN32')))))
 idna==3.4 ; python_version >= '3.5'
+markdown-it-py==3.0.0 ; python_version >= '3.8'
+mdurl==0.1.2 ; python_version >= '3.7'
 pydantic==2.2.0
 pydantic-core==2.6.0 ; python_version >= '3.7'
+pygments==2.16.1 ; python_version >= '3.7'
 python-decouple==3.8
 requests==2.31.0
+rich==13.5.2
 sqlalchemy==2.0.20
 typing-extensions==4.7.1 ; python_version >= '3.7'
 urllib3==2.0.4 ; python_version >= '3.7'
